@@ -15,10 +15,8 @@ class IGBOT():
 
     def sign_in(self):
         self.browser.get(self.url + "accounts/login/")
-
         email_input = self.browser.find_element_by_xpath("//input[@name='username']")
         password_input = self.browser.find_element_by_xpath("//input[@name='password']")
-
         email_input.send_keys(self.email)
         password_input.send_keys(self.password)
         password_input.send_keys(Keys.ENTER)
