@@ -12,13 +12,12 @@ class IGBOT():
         self.password = password
         self.url = "https://www.instagram.com/"
         self.like_unlike_button_path = "/html/body/span/section/main/div/div/article/div[2]/section[1]/span[1]/button"
+        self.photo_div_class = "v1Nh3 kIKUG  _bz0w"
 
     def sign_in(self):
         self.browser.get(self.url + "accounts/login/")
-
         email_input = self.browser.find_element_by_xpath("//input[@name='username']")
         password_input = self.browser.find_element_by_xpath("//input[@name='password']")
-
         email_input.send_keys(self.email)
         password_input.send_keys(self.password)
         password_input.send_keys(Keys.ENTER)
@@ -27,7 +26,7 @@ class IGBOT():
     def follow_with_username(self, username):
         self.browser.get(self.url + username + "/")
         time.sleep(2)
-        follow_button = self.browser.find_element_by_css_selector("button[type*='button'")
+        follow_button = self.browser.find_element_by_xpath("//button[text() = 'Follow']")
         if follow_button.text != "Following":
             follow_button.click()
             time.sleep(2)
@@ -46,11 +45,10 @@ class IGBOT():
         self.browser.get(self.url + username + "/")
         self.scroll()
         page = self.browser.page_source
-        splt = page.split("v1Nh3 kIKUG  _bz0w")
+        splt = page.split(self.photo_div_class)
         for spl in splt:
             if spl.find('href="/p') is not -1:
                 photo_link = spl[spl.find('href="/p') + 7: spl.find('/"') + 1]
-                print(photo_link)
                 self.browser.get(self.url + photo_link)
                 like_button = self.browser.find_element_by_xpath(self.like_unlike_button_path)
                 if like_button.get_attribute("innerHTML").find("Unlike") is not 1:
@@ -61,7 +59,7 @@ class IGBOT():
         self.browser.get(self.url + username + "/")
         self.scroll()
         page = self.browser.page_source
-        splt = page.split("v1Nh3 kIKUG  _bz0w")
+        splt = page.split(self.photo_div_class)
         for spl in splt:
             if spl.find('href="/p') is not -1:
                 photo_link = spl[spl.find('href="/p') + 7: spl.find('/"') + 1]
