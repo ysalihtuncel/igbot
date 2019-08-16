@@ -51,7 +51,7 @@ class IGBOT():
                 photo_link = spl[spl.find('href="/p') + 7: spl.find('/"') + 1]
                 self.browser.get(self.url + photo_link)
                 like_button = self.browser.find_element_by_xpath(self.like_unlike_button_path)
-                if like_button.get_attribute("innerHTML").find("Unlike") is not 1:
+                if like_button.get_attribute("innerHTML").find("Unlike") == -1:
                     like_button.click()
                     time.sleep(2)
 
